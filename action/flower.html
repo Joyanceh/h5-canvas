@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="gbk" /><title>HTML5酷炫花朵效果炫彩</title>
+    <meta name="Description" content="jsdo.it - share JavaScript, HTML5 and CSS - " />
+    <meta name="Keywords" content="JavaScript,HTML5,CSS" />
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1">
+    <style type="text/css"></style>
+</head>
+<body>
+<canvas onclick="speed++;if(speed>8)speed=1;">浏览器不支持HTML5</canvas>
+<br /><input type="button" onclick="kaisi()" id="stb" value="开始动画" />
+<script type="text/javascript">
+    var canvas,ctx,rtank,rrtank,timer,isstart,res,speed,count,sokudo,gime,stmax,stank,ctank;
+    window.onload=function(){
+        var a,b,rad;
+        canvas = document.getElementsByTagName('canvas')[0],
+                ctx = canvas.getContext('2d');
+        canvas.width=canvas.height=400;
+        ctx.fillRect(0,0,400,400);
+        ctx.strokeStyle="rgb(50,211,11)";
+        gime=ctx.getImageData(0,0,400,400);
+        ctx.globalCompositeOperation = "lighter";
+        stmax=5000;
+        stank=new Float32Array(stmax);
+        ctank=new Float32Array(stmax);
+        rad=0;
+        b=Math.PI*2/stmax;
+        for(a=0;a< stmax;a++){
+            stank[a]=Math.sin(rad);
+            ctank[a]=Math.cos(rad);
+            rad+=b;
+        }
+        rtank=[];rrtank=[];
+        for(a=0;a< 30;a++)
+            rtank[a]=Math.random();
+        sokudo=40;
+        count=0;
+        res=0;
+        speed=2;
+        baum(0,15);
+    };
+    function baum(nam,maxbai){
+        var a,kai;
+        ctx.lineWidth=2/maxbai;
+        kai=20;
+        for(a=0;a< kai;a++)
+            twis(nam+a*400/kai+10,a/kai,maxbai);
+    }
+    function twis(nam,r,maxbai){
+        var a,b,max,x,y,x2,y2,han,han2,ritu,rad,size,size2,light;
+        size=nam%400;
+        size/=400;
+        size*=size*size;
+        if(size>0.15){
+            size=(size-0.15)/0.85;
+            size*=size*size;
+            size=size*0.85+0.15;
+        }
+        size*=400;
+        light=60;
+        if(size>300) light=(1-(size-300)/100)*60;
+        ctx.beginPath();
+        ctx.strokeStyle="hsl("+((nam/2+110)|0)+",80%,"+(light|0)+"%)";
+        max=(size*maxbai)|0;
+        if(max>maxbai*200)max=maxbai*200;
+        size2=size-20;
+        if(size2< 0)size2=0;
+        ritu=rtank.length/max;
+        c=0.05*max;
+        b=(nam/600+r)*max;
+        for(a=0;a< max;a++){
+            han=(noize1(a*ritu,rtank)+0.2)*size;
+            rad=((b/max*stmax)|0)%stmax;
+            x=ctank[rad]*han+200;
+            y=stank[rad]*han+200;
+            han2=(noize1(a*ritu+33.333,rtank)+0.2)*size2;
+            rad=(((b+c)/max*stmax)|0)%stmax;
+            x2=ctank[rad]*han2+200;
+            y2=stank[rad]*han2+200;
+            ctx.moveTo(x,y);
+            ctx.lineTo(x2,y2);
+            b++;
+        }
+        ctx.stroke();
+    }
+    function ruup(){
+        var a,b;
+        clearTimeout(timer);
+        ctx.putImageData(gime,0,0);
+        if(isstart===0){
+            document.getElementById("stb").value="开始";
+            baum(res,10);
+            return;
+        }
+        timer=setTimeout(ruup,30);
+        if(count%sokudo===0)
+            for(a=0;a< rtank.length;a++) rrtank[a]=(Math.random()-rtank[a])/sokudo;
+
+        baum(res,5);
+        for(a=0;a< rtank.length;a++) rtank[a]+=rrtank[a];
+        count++;
+        res+=speed;
+    }
+    function kaisi(){
+        var a;
+        a=document.location+"";
+        a=a.split("/")[3];
+        if(isstart==1){
+            isstart=0;
+            return;
+        }
+        document.getElementById("stb").value="停止";
+        isstart=1;
+        timer=setTimeout(ruup,0);
+    }
+    function noize1(val,p){
+        var i=val|0,r1=val-i,r2=1-r1,len=p.length,
+                p0=p[i%len],p1=p[(i+1)%len],p2=p[(i+2)%len],
+                x0=(p0+p1)/2,x1=(p1+p2)/2;
+        return (x0*r2+p1*r1)*r2+(p1*r2+x1*r1)*r1;
+    }
+
+
+</script>
+</body>
+</html>

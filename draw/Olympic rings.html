@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<section>
+    <h3>使用html5的Canvas制作一个一模一样的奥运五环：</h3>
+
+    <p>第一步：画圆</p>
+
+    <p>在一切实验之前，要先理解Canvas中的坐标系统，假设一个宽是300，高是150的Canvas标签，它内部的坐标变化为，从左上角向下，向右越来越大。
+    Canvas画圆的语法为:</p>
+    <p>arc(x,y,radius,startAngle,endAngle,counterclockwise)</p>
+
+    <p>利用以上方法，直接在Canvas中画五个圆环。</p>
+
+</section>
+
+<canvas id="myCanvas" style="border: 1px solid #c3c3c3; width: 400px; height: 200px;">
+    你的浏览器不支持canvas
+</canvas>
+<p>可以看到和标准的奥运标志相比，圆环宽度不够，而且不是彩色的，所以要设置Canvas的属性来绘制更加逼真的圆环。</p>
+
+<script type="text/javascript">
+    var c = document.getElementById("myCanvas");
+    var ctx = c.getContext("2d");
+    ctx.beginPath();
+    ctx.arc(70, 70, 40, 0, Math.PI * 2, false);
+    ctx.stroke();
+    ctx.beginPath();
+    ctx.arc(160, 70, 40, 0, Math.PI * 2, false);
+    ctx.stroke();
+    ctx.beginPath();
+    ctx.arc(250, 70, 40, 0, Math.PI * 2, false);
+    ctx.stroke();
+    ctx.beginPath();
+    ctx.arc(110, 110, 40, 0, Math.PI * 2, false);
+    ctx.stroke();
+    ctx.beginPath();
+    ctx.arc(200, 110, 40, 0, Math.PI * 2, false);
+    ctx.stroke();
+</script>
+
+
+<canvas id="myCanvas2" style="border: 1px solid #c3c3c3; width: 400px; height: 200px;">
+    你的浏览器不支持canvas
+</canvas>
+<script type="text/javascript">
+    var c = document.getElementById("myCanvas2");
+    var ctx = c.getContext("2d");
+    ctx.lineWidth = 5;
+    ctx.strokeStyle = "#163B62";
+    ctx.beginPath();
+    ctx.arc(70, 70, 40, 0, Math.PI * 2, false);
+    ctx.stroke();
+    ctx.strokeStyle = "#000000";
+    ctx.beginPath();
+    ctx.arc(160, 70, 40, 0, Math.PI * 2, false);
+    ctx.stroke();
+    ctx.strokeStyle = "#BF0628";
+    ctx.beginPath();
+    ctx.arc(250, 70, 40, 0, Math.PI * 2, false);
+    ctx.stroke();
+    ctx.strokeStyle = "#EBC41F";
+    ctx.beginPath();
+    ctx.arc(110, 110, 40, 0, Math.PI * 2, false);
+    ctx.stroke();
+    ctx.strokeStyle = "#198E4A";
+    ctx.beginPath();
+    ctx.arc(200, 110, 40, 0, Math.PI * 2, false);
+    ctx.stroke();
+</script>
+
+    <p class="STYLE1">第二步：画弧</p>
+    <p>&nbsp;可以通过画弧来重新覆盖被覆盖的部分，以实现环环相扣的视觉效果。在画弧之前，先回到Canvas的arc方法<br>
+        &nbsp;arc(x,y,radius,startAngle,endAngle,counterclockwise)</p>
+    <p> 以上代码中各参数的意义如下：<br></p>
+
+    <table width="634" border="2">
+        <tbody><tr>
+            <td width="173">参数</td>
+            <td width="445">描述</td>
+        </tr>
+        <tr>
+            <td>x,y</td>
+            <td> 描述弧的圆心的坐标</td>
+        </tr>
+        <tr>
+            <td>radius</td>
+            <td>描述弧的半径</td>
+        </tr>
+        <tr>
+            <td><br>
+                startAngle,endAngle </td>
+            <td> 沿着圆指定弧的开始点和结束点的一个角度，这个角度用弧度来衡量，沿着X轴正半轴的三点钟方向的角度为0，角度沿逆时针方向增加</td>
+        </tr>
+        <tr>
+            <td><br>
+                counterclockwise</td>
+            <td>弧沿着圆周的逆时针方向（true）还是顺时针方向（false）遍历</td>
+        </tr>
+    </tbody>
+    </table>
+<br> <br>
+ <div>
+     ctx.strokeStyle = "#163B62";
+     <br>ctx.beginPath();
+     <br>ctx.arc(70, 70, 40, Math.PI * 1.9, Math.PI * 2.1, false);
+     <br>ctx.stroke();
+     <br>ctx.strokeStyle = "#000000";
+     <br>ctx.beginPath();
+     <br>ctx.arc(160, 70, 40, Math.PI * 0.9, Math.PI * 2.1, false);
+     <br>ctx.stroke();
+     <br>ctx.strokeStyle = "#BF0628";
+     <br>ctx.beginPath();
+     <br>ctx.arc(250, 70, 40, Math.PI * 0.9, Math.PI * 1.1, false);
+     <br>ctx.stroke();
+     <br>合并以上代码，就得到完整的代码如下：
+ </div>
+
+<br> <br>
+<canvas id="myCanvas3" style="border: 1px solid #c3c3c3; width: 400px; height: 200px;">
+    你的浏览器不支持canvas
+</canvas>
+<script type="text/javascript">
+    var c = document.getElementById("myCanvas3");
+    var ctx = c.getContext("2d");
+    ctx.lineWidth = 5;
+    ctx.strokeStyle = "#163B62";
+    ctx.beginPath();
+    ctx.arc(70, 70, 40, 0, Math.PI * 2, false);
+    ctx.stroke();
+    ctx.strokeStyle = "#000000";
+    ctx.beginPath();
+    ctx.arc(160, 70, 40, 0, Math.PI * 2, false);
+    ctx.stroke();
+    ctx.strokeStyle = "#BF0628";
+    ctx.beginPath();
+    ctx.arc(250, 70, 40, 0, Math.PI * 2, false);
+    ctx.stroke();
+    ctx.strokeStyle = "#EBC41F";
+    ctx.beginPath();
+    ctx.arc(110, 110, 40, 0, Math.PI * 2, false);
+    ctx.stroke();
+    ctx.strokeStyle = "#198E4A";
+    ctx.beginPath();
+    ctx.arc(200, 110, 40, 0, Math.PI * 2, false);
+    ctx.stroke();
+    ctx.strokeStyle = "#163B62";
+    ctx.beginPath();
+    ctx.arc(70, 70, 40, Math.PI * 1.9, Math.PI * 2.1, false);
+    ctx.stroke();
+    ctx.strokeStyle = "#000000";
+    ctx.beginPath();
+    ctx.arc(160, 70, 40, Math.PI * 0.9, Math.PI * 2.1, false);
+    ctx.stroke();
+    ctx.strokeStyle = "#BF0628";
+    ctx.beginPath();
+    ctx.arc(250, 70, 40, Math.PI * 0.9, Math.PI * 1.1, false);
+    ctx.stroke();
+</script>
+
+</body>
+</html>

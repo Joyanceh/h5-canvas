@@ -1,0 +1,184 @@
+var canvas,ctx;//画布、上下文
+var x1;
+var y1;
+var size1;
+var speed1;
+var angle1;
+var windmills=[];
+function Windmill(x,y,speed,size,angle){	//风车类的定义
+this.x=x;	//风车的位置
+this.y=y;
+this.speed=speed;	 //风车的转速
+this.size=size;   //风车的大小
+this.angle=angle;	 //风车转过的角度
+this.drawAa=drawArca; //画半圆的函数
+this.drawAb=drawArcb;
+this.drawAc=drawArcc;
+this.drawAd=drawArcd;
+this.drawH= drawHandle; //画把手的函数
+this.speedup=speedUp;
+}
+function newWindmill(){ //为数组加入风车
+var j=0; //后排风车
+while(j< 5){
+x1=162+j*212;
+y1=300;
+size1=15;
+speed1=1;
+angle1=0;
+awindmill=new Windmill(x1,y1,speed1,size1,angle1);
+windmills.push(awindmill); //放进数组里
+j=j+1;
+}
+j=0; //前排风车
+while(j< 5){
+x1=262+j*212;
+y1=445;
+size1=20;
+speed1=1;
+angle1=0;
+awindmill=new Windmill(x1,y1,speed1,size1,angle1);
+windmills.push(awindmill);
+j=j+1;
+}
+}
+function init(){
+initCanvas();
+document.getElementById("windmill").addEventListener("click",speedChange);
+document.getElementById("windmill").addEventListener("mousemove",sizeChange,false);
+newWindmill();
+s= setInterval(drawall,20);
+}
+function sizeChange(ev){
+var sx;
+var sy;
+sx=ev.offsetX;
+sy=ev.offsetY;
+for(i=0;i< windmills.length;i++){
+if(sx< windmills[i].x+windmills[i].size&&sx>windmills[i].x-windmills[i].size&&sy<
+windmills[i].y+windmills[i].size&&sy>windmills[i].y-windmills[i].size)
+if(i< 5)
+windmills[i].size=20;
+else windmills[i].size=30;
+else if(i< 5) windmills[i].size=15;
+else windmills[i].size=20;
+clearInterval(s);
+s=setInterval(drawall,20);
+}
+}
+function speedUp(){
+switch(this.speed){
+case 0: this.speed=0.1;break;
+case 0.1: this.speed=0.5;break;
+case 0.5: this.speed=1;break;
+case 1: this.speed=2;break;
+case 2: this.speed=4;break;
+case 4: this.speed=0;break;
+}
+}
+function speedChange(ev){
+var mx;
+var my;
+mx=ev.clientX;
+my=ev.clientY;
+for(i=0;i< windmills.length;i++){
+if(mx< windmills[i].x+windmills[i].size&&mx>windmills[i].x-windmills[i].size&&my<
+windmills[i].y+windmills[i].size&&my>windmills[i].y-windmills[i].size)
+windmills[i].speedup();
+clearInterval(s);
+s=setInterval(drawall,20);
+}
+}
+function initCanvas(){  //初始化画布
+canvas = document.getElementById("windmill");
+ctx = canvas.getContext("2d");
+}
+
+function drawArca(){  //绘制半圆
+ctx.beginPath();
+var trunkGradient = ctx.createLinearGradient(this.x, this.y, this.x, this.y+4*this.size);
+trunkGradient.addColorStop(0, "#552200");
+trunkGradient.addColorStop(1, '#FFF00F');
+ctx.fillStyle = trunkGradient;
+ctx.arc(this.x - (2*this.size*Math.cos(this.angle)), this.y -
+2*this.size*Math.sin(this.angle), 2*this.size, this.angle, Math.PI+this.angle, true);
+ctx.closePath();
+ctx.fill();
+ctx.save();
+}
+
+function drawArcb(){  //绘制半圆
+ctx.beginPath();
+var trunkGradient = ctx.createLinearGradient(this.x, this.y, this.x, this.y+4*this.size);
+trunkGradient.addColorStop(0, "#990000");
+trunkGradient.addColorStop(1, '#FFF00F');
+ctx.fillStyle = trunkGradient;
+ctx.arc(this.x - (2*this.size*Math.cos(this.angle+0.5*Math.PI)), this.y -
+2*this.size*Math.sin(this.angle+1/2*Math.PI), 2*this.size,
+this.angle+1/2*Math.PI, 1.5*Math.PI+this.angle, true);
+ctx.closePath();
+ctx.fill();
+ctx.save();
+}
+
+function drawArcc(){  //绘制半圆
+ctx.beginPath();
+var trunkGradient = ctx.createLinearGradient(this.x, this.y, this.x, this.y+4*this.size);
+trunkGradient.addColorStop(0, "#0033FF");
+trunkGradient.addColorStop(1, '#FFF00F');
+ctx.fillStyle = trunkGradient;
+ctx.arc(this.x - (2*this.size*Math.cos(this.angle+Math.PI)), this.y -
+2*this.size*Math.sin(this.angle+Math.PI),2*this.size,this.angle+Math.PI,this.angle+2*Math.PI,true);
+ctx.closePath();
+ctx.fill();
+ctx.save();
+}
+
+function drawArcd(){  //绘制半圆
+ctx.beginPath();
+var trunkGradient = ctx.createLinearGradient(this.x, this.y, this.x, this.y+4*this.size);
+trunkGradient.addColorStop(0, "#225500");
+trunkGradient.addColorStop(1, '#FFF00F');
+ctx.fillStyle = trunkGradient;
+ctx.arc(this.x - (2*this.size*Math.cos(this.angle+3/2*Math.PI)), this.y -
+2*this.size*Math.sin(this.angle+3/2*Math.PI),
+2*this.size,this.angle+3/2*Math.PI,this.angle+5/2*Math.PI,true);
+ctx.closePath();
+ctx.fill();
+ctx.save();
+}
+
+function drawHandle(){  //绘制手把柄
+var trunkGradient = ctx.createLinearGradient(this.x, this.y, this.x+10, this.y);
+trunkGradient.addColorStop(0, '#663300');
+trunkGradient.addColorStop(0.4, '#996600');
+trunkGradient.addColorStop(1, '#552200');
+ctx.fillStyle = trunkGradient;
+ctx.fillRect(this.x, this.y, 0.2*this.size, 8*this.size);
+function drawall(){
+}
+ctx.clearRect(0,0,1274,670);
+for(var i=0;i< windmills.length;i++){
+windmills[i].angle = windmills[i].angle + (windmills[i].speed*1/32)*Math.PI;
+if(windmills[i].angle==2*Math.PI) windmills[i].angle=0;
+windmills[i].drawH();
+windmills[i].drawAa();
+windmills[i].drawAb();
+windmills[i].drawAc();
+windmills[i].drawAd();
+}
+}
+</script>
+</head>
+<body onLoad="init();">
+        <div class="box1">
+        <img src="imgs\f.jpg" width="1274px" height="670px">
+        </div>
+        <div class="box1">
+        <canvas id = "windmill" width = "1274px" height = "670px"></canvas>
+        </div>
+        <audio autoplay="autoplay" loop="loop">
+        <source src="music\Windmill.mp3" type="audio/mpeg">
+        </audio>
+        </body>
+        </html>

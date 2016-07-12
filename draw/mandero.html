@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<canvas id="canvas" width="400" height="300" style="border:1px solid #c3c3c3;">
+    你的浏览器不支持HTML5，请更换浏览器！
+</canvas>
+<script type="text/javascript">
+    function drawMandel() {
+        n=50; pi=1;
+        x1=-2; x2=1; y1=-1.32; y2=1.32;
+        w=canvas.width;
+        h=canvas.height;
+        dx = (x2 - x1) / w;
+        dy = (y2 - y1) / h;
+        py = 0;
+        while (py < h) {
+            px = 0;
+            while (px < w) {
+                x0=0; y0=0;
+                a=x1+px*dx;
+                b=y1+py*dy;
+                xx = 0; yy = 0;
+                i = 0;
+                while ((i<=n)&&(xx+yy<4)) {
+                    xx = x0*x0;  yy = y0*y0;
+                    x = xx - yy + a;
+                    y = (2*x0*y0) + b;
+                    x0 = x ; y0 = y;
+                    i = i + 1;
+                }
+                i = i - 1;
+                ctx.beginPath();
+                if (i == n)
+                    ctx.strokeStyle = 'rgb(0,0,0)';
+                else
+                    ctx.strokeStyle =
+                            'rgb(' + (i+0)*102%256 +','+ (i+1)*102%256+','+(i+2)*102%256 + ')';
+                ctx.moveTo(px, py);
+                ctx.lineTo(px+1, py+1);
+                ctx.stroke();
+                px = px + 1;
+            }
+            py = py + 1;
+        }
+    }
+    window.onload = function (){
+        ctx = document.getElementById('canvas').getContext('2d');
+        drawMandel();
+    }
+</script>
+</body>
+</html>
