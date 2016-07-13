@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=gbk">
+    <title>英国国旗</title>
+</head>
+<body>
+<canvas id="myCanvas" width="600" height="300">您的浏览器不支持Canvas，请升级浏览器！</canvas>
+<script type = "text/javascript" >
+    var canvas = document.getElementById('myCanvas');/*获取定义的画布*/
+    var ctx = canvas.getContext('2d');/*利用2维环境中进行绘画*/
+    var width = canvas.width;
+    var height= canvas.height;
+    var blue ="rgb(0,0,102)";
+    var red = "rgb(204,0,0)";
+
+    var thin = width/30;
+    var medium = width/10;
+    var thick = width/6;
+    ctx.fillStyle=blue;
+    ctx.fillRect(0, 0, width, height);
+
+    ctx.lineWidth=medium;
+    ctx.strokeStyle="#fff";
+    ctx.moveTo(0, 0);
+    ctx.lineTo(width,height);
+    ctx.stroke();
+    ctx.moveTo(width,0);
+    ctx.lineTo(0, height);
+    ctx.stroke();
+    ctx.beginPath();
+    ctx.lineWidth=thin;
+    ctx.strokeStyle=red;
+    var  theta = Math.atan(height/width);
+    var pp = getOffsets(thin/2.0, theta+Math.PI/2);
+    ctx.moveTo(pp.x, pp.y);
+    ctx.lineTo(width/2+pp.x, height/2+pp.y);  // nw
+    ctx.stroke();
+    pp = getOffsets(thin/2.0, Math.PI/2-theta);
+    ctx.moveTo(pp.x, height+p.y);
+    ctx.lineTo(width/2+p.x, height/2+p.y);  // sw
+    ctx.stroke();
+    pp = getOffsets(thin/2.0, theta-Math.PI/2);
+    ctx.moveTo(width+pp.x, height+pp.y);
+    ctx.lineTo(width/2+pp.x, height/2+pp.y);  // se
+    ctx.stroke();
+    pp = getOffsets(thin/2.0, -Math.PI/2-theta);
+    ctx.moveTo(width+pp.x,pp.y);
+    ctx.lineTo(width/2+pp.x, height/2+pp.y);  // ne
+    ctx.stroke();
+    ctx.beginPath();
+    ctx.lineWidth=thick;
+    ctx.strokeStyle="#fff";
+    ctx.moveTo(width/2,0);
+    ctx.lineTo(width/2,height);
+    ctx.stroke();
+
+    ctx.moveTo(0, height/2);
+    ctx.lineTo(width,height/2);
+    ctx.stroke();
+
+
+    ctx.lineWidth=medium;
+    ctx.strokeStyle=red;
+    ctx.moveTo(width/2,0);
+    ctx.lineTo(width/2,height);
+    ctx.stroke();
+
+    ctx.moveTo(0, height/2);
+    ctx.lineTo(width,height/2);
+    ctx.stroke();
+    function getOffsets(len, theta) {
+        p = {};
+        p.x = len*Math.cos(theta);
+        p.y = len*Math.sin(theta);
+        return p;
+    }
+</script>
+</body>
+</html>

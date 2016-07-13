@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+    <script type="text/javascript">
+
+        function drawBoc(){
+            var ctx = document.getElementById("boc").getContext('2d');
+            //外环
+            ctx.beginPath();
+            ctx.strokeStyle="#ff0000";
+            ctx.arc(200,250,100,0,Math.PI*2,false);
+            ctx.fillStyle="#ff0000";
+            ctx.stroke();
+            ctx.fill();
+            ctx.beginPath();
+            ctx.arc(200,250,77,0,Math.PI*2,false);
+            ctx.stroke();
+            ctx.fillStyle="#FFFFFF";
+            ctx.fill();
+
+            //外面的口（画圆角矩形）
+            ctx.beginPath();
+            ctx.fillStyle="red";
+            //ctx.fillRect(152,210,95,80);
+            roundRect(ctx,152,210,95,80,25,true,false);
+            ctx.beginPath();
+            //里面的口
+            ctx.fillStyle="#FFFFFF";
+            ctx.fillRect(174,231,52,37);
+            ctx.beginPath();
+            //中字的上下两竖
+            ctx.fillStyle="red";
+            ctx.fillRect(187,160,25,55);
+            ctx.beginPath();
+            ctx.fillStyle="red";
+            ctx.fillRect(188,280,25,55);
+        }
+        //画圆角矩形
+        function roundRect(ctx, x, y, width, height, radius, fill, stroke) {
+            if (typeof stroke == "undefined" ) {
+                stroke = true;
+            }
+            if (typeof radius === "undefined") {
+                radius = 5;
+            }
+            ctx.beginPath();
+            ctx.moveTo(x + radius, y);
+            ctx.lineTo(x + width - radius, y);
+            ctx.quadraticCurveTo(x + width, y, x + width, y + radius);
+            ctx.lineTo(x + width, y + height - radius);
+            ctx.quadraticCurveTo(x + width, y + height, x + width - radius, y + height);
+            ctx.lineTo(x + radius, y + height);
+            ctx.quadraticCurveTo(x, y + height, x, y + height - radius);
+            ctx.lineTo(x, y + radius);
+            ctx.quadraticCurveTo(x, y, x + radius, y);
+            ctx.closePath();
+            if (stroke) {
+                ctx.stroke();
+            }
+            if (fill) {
+                ctx.fill();
+            }
+        }
+    </script>
+</head>
+<body onload="drawBoc();">
+<canvas id="boc" width="800" height="500"></canvas>
+</body>
+</html>

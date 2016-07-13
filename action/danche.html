@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Canvas Lab单车动画，HTML5动画</title>
+</head>
+    <script type="text/javascript">
+        var framecounter = 800;//为了完成作业，无耻了点，在这里设置变量……
+        var direction = "left";
+        function drawBikeBody () {
+            var canvas = document.getElementById('diagonal');
+            var context = canvas.getContext('2d');
+            context.lineWidth = 3;
+            context.beginPath();
+            context.moveTo(0,0);
+            context.lineTo(150,0);
+            context.lineTo(100,100);
+            context.closePath();
+            context.moveTo(100,100);
+            context.lineTo(200,75);//后轮轴承点
+            context.lineTo(150,0);
+
+            //下面那个一个脚踏
+            context.moveTo(100,100);
+            context.lineTo(110,120);
+            context.lineTo(120,120);
+            context.moveTo(110,120);
+            context.lineTo(100,120);
+            //另一个脚踏
+            context.moveTo(100,100);
+            context.lineTo(90,80);
+            context.lineTo(100,80);
+            context.moveTo(90,80);
+            context.lineTo(80,80);
+            //座包
+            context.moveTo(150,0);
+            context.lineTo(160,-20);
+            context.lineTo(175,-20);
+            context.moveTo(160,-20);
+            context.lineTo(135,-20);
+            //扶手
+            context.moveTo(0,0);
+            context.lineTo(15,-30);
+            context.lineTo(10,-35);
+            context.lineTo(20,-40);
+            context.lineTo(40,-40);
+            //前轮轴承
+            context.moveTo(0,0);
+            context.lineTo(-35.5,75);//前轮轴承点
+
+            //前轮
+            context.moveTo(75-35.5,75);//去掉这个目测不行啊，貌似context.arc()方法里有lineTo
+            context.arc(-35.5,75,75,0,Math.PI*2,true);
+            //后轮
+            context.moveTo(200+75,75);
+            context.arc(200,75,75,0,Math.PI*2,true);
+        }
+        function drawForcePiece1(){
+            var canvas = document.getElementById('diagonal');
+            var context = canvas.getContext('2d');
+            context.beginPath();
+            for(var i = framecounter; i < framecounter+360; i += 20) {
+                context.moveTo(-35.5,75);
+                x = Math.cos(Math.PI / 180 * i) * 75 + (-35.5);
+                y = Math.sin(Math.PI / 180 * i) * 75 + 75;
+                context.lineTo(x,y);
+            }
+        }
+        function drawForcePiece2(){
+            var canvas = document.getElementById('diagonal');
+            var context = canvas.getContext('2d');
+            context.beginPath();
+            for(var i = framecounter; i < framecounter+360; i += 20) {
+                context.moveTo(200,75);
+                x = Math.cos(Math.PI / 180 * i) * 75 + 200;
+                y = Math.sin(Math.PI / 180 * i) * 75 + 75;
+                context.lineTo(x,y);
+            }
+        }
+        function drawBike(){
+            var canvas = document.getElementById('diagonal');
+            var context = canvas.getContext('2d');
+            context.clearRect(0, 0, 800, 600);
+            context.save();
+            context.translate(framecounter,300);
+            drawBikeBody();
+            context.stroke();
+            context.restore();
+            context.save();
+            context.translate(framecounter,300);
+
+            drawForcePiece1();
+            context.stroke();
+            context.restore();
+            context.save();
+            context.translate(framecounter,300);
+            drawForcePiece2();
+
+            context.stroke();
+            context.restore();
+            if (direction==="left") {
+                framecounter--;
+            }else{
+                framecounter++;
+            }
+        }
+        function move() {
+            var interal = setInterval(function () {
+                drawBike();
+            }, 10);
+        }
+
+        window.addEventListener("load",move,true);
+    </script>
+<body>
+<canvas id="diagonal" width="800" height="600" style="border:1px dashed">
+    Please update your brower to the newest version!
+</canvas>
+<br>
+<button id="reset" onClick="framecounter=800;">Reset</button>
+<button id="left" onClick="direction='left'">Go Left</button>
+<button id="right" onClick="direction='ture'">Go Right</button>
+</body>
+</html>
