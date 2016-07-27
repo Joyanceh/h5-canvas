@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>正弦余弦Path Grids</title>
+</head>
+<body>
+<canvas id="c" height="600" width="850"></canvas>
+<script type="text/javascript">
+    //画竖线
+    var c = document.getElementById("c");
+    var context = c.getContext("2d");
+    for(var x=0.5;x< 800;x += 10){
+        context.moveTo(x,0);
+        context.lineTo(x,600);
+    }
+    //画横线
+    for(var y=0.5;y< 600;y += 10){
+        context.moveTo(0,y);
+        context.lineTo(800,y);
+    }
+    //选择颜色
+    context.strokeStyle = "#ccc";
+    //渲染
+    context.stroke();
+    //XY坐标系
+    //开始新的路径
+    //y轴
+    context.beginPath();
+    context.moveTo(100,700);
+    context.lineTo(100,50);
+    context.moveTo(95,55);
+    context.lineTo(100,50);
+    context.lineTo(105,55);
+    //x轴
+    context.moveTo(700,500);
+    context.lineTo(0,500);
+    context.moveTo(695,495);
+    context.lineTo(700,500);
+    context.lineTo(695,505);
+    //选择颜色
+    context.strokeStyle = "#000";
+    //渲染
+    context.stroke();
+    //填充文字
+    context.font = "bold 16px sans-self";
+    context.fillText("x",710,490);
+    context.fillText("y",90,40);
+    context.fillText("0",80,520);
+    //画曲线 sin曲线
+    context.beginPath();
+    context.moveTo(100,500);
+    for(var x=100;x< 700;x++){
+        context.lineTo(x,-100*Math.sin((x-100)*Math.PI/180)+500)
+    }
+    context.strokeStyle = "#FF0000";
+    context.stroke();
+    //画曲线 cos曲线
+    context.beginPath();
+    context.moveTo(100,400);
+    for(var x=100;x< 700;x++){
+        context.lineTo(x,-100*Math.cos((x-100)*Math.PI/180)+500)
+    }
+    context.strokeStyle = "#FFFF00";
+    context.stroke();
+    //画曲线 tan曲线
+    context.beginPath();
+    context.moveTo(100,400);
+    for(var x=100;x< 180;x++){
+        context.lineTo(x,-100*Math.tan((x-100)*Math.PI/180)+500)
+    }
+    context.strokeStyle = "#0000ff";
+    context.stroke();
+</script>
+</body></html>

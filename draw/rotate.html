@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>两种旋转方式</title>
+</head>
+<body onload="onload();">
+<canvas id='c1' width='600' height='400' style='border: 1px solid #000;'></canvas>
+&nbsp;&nbsp;&nbsp;
+<canvas id='c2' width='600' height='400' style='border: 1px solid #000;'></canvas>
+
+
+</body>
+</html>
+<script>
+
+/*
+    作为web开发者，我一直在和HTML5 canvas元素打交道。渲染图片是一个大的分支，十分重要而且很常用，所以,今天的教程是关于画布图像展示以及如何旋转图像，说不定是你现在真正想要的好东西。
+
+    总的来说，canvas旋转有两种方式：中心旋转和参照点旋转。熟练应用旋转功能，对你的开发作品会有极大的帮助。
+
+    关于对象的中心旋转
+    第一个类型的旋转，我们要看看是对其中心旋转一个对象。实现使用画布元素，这是一个最简单的旋转类型。我们把一只大猩猩的图片作为素材进行试验。
+
+    基本的想法是,我们要把帆布按照一个中心点旋转,旋转画布,然后把画布回到原来的位置。如果你有一些经验关于图形引擎，那么这听起来应该很熟悉。代码大概就是这样：
+
+    */
+    function onload() {
+        rotate1();
+        rotate2();
+    }
+
+    function rotate1() {
+        var canvas = document.getElementById('c1');
+        var ctx1 = canvas.getContext('2d');
+        var image1 = new Image();
+        image1.onload = function() {
+            // regular rotation about center
+            var xpos = canvas.width/2;
+            var ypos = canvas.height/2;
+            ctx1.drawImage(image1, xpos - image1.width / 2, ypos - image1.height / 2);
+            ctx1.save();
+            ctx1.translate(xpos, ypos);
+            ctx1.rotate(47 * Math.PI / 180);//旋转47度
+            ctx1.translate(-xpos, -ypos);
+            ctx1.drawImage(image1, xpos - image1.width / 2, ypos - image1.height / 2);
+            ctx1.restore();
+        }
+        image1.src = '../image/image.png';
+    }
+    function rotate2() {
+        var canvas2 = document.getElementById('c2');
+        var ctx2 = canvas2.getContext('2d');
+        // regular rotation about point
+        var image2 = new Image();
+        image2.onload = function() {
+            // regular rotation about a point
+            var angle = 120 * Math.PI / 180; // angle of rotation in radians
+            var rx = 300, ry = 200; // the rotation x and y
+            var px = 300, py = 50; // the objects center x and y
+            var radius = ry - py; // the difference in y positions or the radius
+            var dx = rx + radius * Math.sin(angle); // the draw x
+            var dy = ry - radius * Math.cos(angle); // the draw y
+            ctx2.drawImage(image2, 300 - image2.width / 2, 50 - image2.height / 2);
+            ctx2.beginPath();
+            ctx2.arc(300,200,5,0,Math.PI*2,false);
+            ctx2.closePath();
+            ctx2.fillStyle = 'rgba(0,255,0,0.25)';
+            ctx2.fill();
+            ctx2.save();
+            ctx2.translate(dx, dy);
+            ctx2.rotate(angle);
+            ctx2.translate(-dx, -dy);
+            ctx2.drawImage(image2, dx - image2.width / 2, dy - image2.height / 2);
+            ctx2.restore();
+
+            //注释已经非常详细，但我仍旧想提一点：.save()和.restore()。
+            // 他们的作用是保存旋转之前的画布，然后旋转后恢复。有效地避免了和其他渲染冲突，十分关键，许多朋友没有顺利进行旋转，大多都是这个原因。
+        }
+        image2.src = '../image/smallimage.png';
+    }
+    
+</script>

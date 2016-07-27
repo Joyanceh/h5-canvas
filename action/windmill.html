@@ -1,200 +1,110 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
     <meta charset="UTF-8">
-    <title>那年我们一起看过的大风车</title>
-    <style>
-        .box1{
-            border:0 solid #f60;
-            position: absolute;
-            top:0;
-            width:1274px;
-            height:670px;
-        }
-    </style>
+    <title>风车</title>
 </head>
-<script type="text/javascript">
-    var canvas,ctx;//画布、上下文
-    var x1;
-    var y1;
-    var size1;
-    var speed1;
-    var angle1;
-    var windmills=[];
-    function Windmill(x,y,speed,size,angle){	//风车类的定义
-        this.x=x;	//风车的位置
-        this.y=y;
-        this.speed=speed;	 //风车的转速
-        this.size=size;   //风车的大小
-        this.angle=angle;	 //风车转过的角度
-        this.drawAa=drawArca; //画半圆的函数
-        this.drawAb=drawArcb;
-        this.drawAc=drawArcc;
-        this.drawAd=drawArcd;
-        this.drawH= drawHandle; //画把手的函数
-        this.speedup=speedUp;
-    }
-    function newWindmill(){ //为数组加入风车
-        var j=0; //后排风车
-        while(j< 5){
-            x1=162+j*212;
-            y1=300;
-            size1=15;
-            speed1=1;
-            angle1=0;
-            awindmill=new Windmill(x1,y1,speed1,size1,angle1);
-            windmills.push(awindmill); //放进数组里
-            j=j+1;
-        }
-        j=0; //前排风车
-        while(j< 5){
-            x1=262+j*212;
-            y1=445;
-            size1=20;
-            speed1=1;
-            angle1=0;
-            awindmill=new Windmill(x1,y1,speed1,size1,angle1);
-            windmills.push(awindmill);
-            j=j+1;
-        }
-    }
-    function init(){
-        initCanvas();
-        document.getElementById("windmill").addEventListener("click",speedChange);
-        document.getElementById("windmill").addEventListener("mousemove",sizeChange,false);
-        newWindmill();
-        s= setInterval(drawall,20);
-    }
-    function sizeChange(ev){
-        var sx;
-        var sy;
-        sx=ev.offsetX;
-        sy=ev.offsetY;
-        for(i=0;i< windmills.length;i++){
-            if(sx< windmills[i].x+windmills[i].size&&sx>windmills[i].x-windmills[i].size&&sy<
-                    windmills[i].y+windmills[i].size&&sy>windmills[i].y-windmills[i].size)
-                if(i< 5)
-                    windmills[i].size=20;
-                else windmills[i].size=30;
-            else if(i< 5) windmills[i].size=15;
-            else windmills[i].size=20;
-            clearInterval(s);
-            s=setInterval(drawall,20);
-        }
-    }
-    function speedUp(){
-        switch(this.speed){
-            case 0: this.speed=0.1;break;
-            case 0.1: this.speed=0.5;break;
-            case 0.5: this.speed=1;break;
-            case 1: this.speed=2;break;
-            case 2: this.speed=4;break;
-            case 4: this.speed=0;break;
-        }
-    }
-    function speedChange(ev){
-        var mx;
-        var my;
-        mx=ev.clientX;
-        my=ev.clientY;
-        for(i=0;i< windmills.length;i++){
-            if(mx< windmills[i].x+windmills[i].size&&mx>windmills[i].x-windmills[i].size&&my<
-                    windmills[i].y+windmills[i].size&&my>windmills[i].y-windmills[i].size)
-                windmills[i].speedup();
-            clearInterval(s);
-            s=setInterval(drawall,20);
-        }
-    }
-    function initCanvas(){  //初始化画布
-        canvas = document.getElementById("windmill");
-        ctx = canvas.getContext("2d");
-    }
+<body>
+<button onclick="move()">转动</button> <button onclick="hideWind()">停止</button>
+<br>
+<canvas id = "canvas" width="300" height="300"></canvas>
 
-    function drawArca(){  //绘制半圆
-        ctx.beginPath();
-        var trunkGradient = ctx.createLinearGradient(this.x, this.y, this.x, this.y+4*this.size);
-        trunkGradient.addColorStop(0, "#552200");
-        trunkGradient.addColorStop(1, '#FFF00F');
-        ctx.fillStyle = trunkGradient;
-        ctx.arc(this.x - (2*this.size*Math.cos(this.angle)), this.y -
-                2*this.size*Math.sin(this.angle), 2*this.size, this.angle, Math.PI+this.angle, true);
-        ctx.closePath();
-        ctx.fill();
-        ctx.save();
-    }
 
-    function drawArcb(){  //绘制半圆
-        ctx.beginPath();
-        var trunkGradient = ctx.createLinearGradient(this.x, this.y, this.x, this.y+4*this.size);
-        trunkGradient.addColorStop(0, "#990000");
-        trunkGradient.addColorStop(1, '#FFF00F');
-        ctx.fillStyle = trunkGradient;
-        ctx.arc(this.x - (2*this.size*Math.cos(this.angle+0.5*Math.PI)), this.y -
-                2*this.size*Math.sin(this.angle+1/2*Math.PI), 2*this.size,
-                this.angle+1/2*Math.PI, 1.5*Math.PI+this.angle, true);
-        ctx.closePath();
-        ctx.fill();
-        ctx.save();
-    }
+<script>
 
-    function drawArcc(){  //绘制半圆
-        ctx.beginPath();
-        var trunkGradient = ctx.createLinearGradient(this.x, this.y, this.x, this.y+4*this.size);
-        trunkGradient.addColorStop(0, "#0033FF");
-        trunkGradient.addColorStop(1, '#FFF00F');
-        ctx.fillStyle = trunkGradient;
-        ctx.arc(this.x - (2*this.size*Math.cos(this.angle+Math.PI)), this.y -
-                2*this.size*Math.sin(this.angle+Math.PI),2*this.size,this.angle+Math.PI,this.angle+2*Math.PI,true);
-        ctx.closePath();
-        ctx.fill();
-        ctx.save();
-    }
+    var Pinwheel = function (canvas, options) {
+        this.canvas = document.getElementById(canvas);
+        this.options = options;
+    };
+    Pinwheel.prototype = {
+        constructor: Pinwheel,
+        show: function () {
+            //首先，确定需要的各项参数：
+            var canvas = this.canvas,//取得canvas元素
+                    width = canvas.width,//canvas元素的宽度
+                    height = canvas.height,//canvas元素的高度
+                    color = this.options.color,//风车叶子的颜色
+                    radius = this.options.radius,//整个风车的半径
+                    wheelRadius = this.options.wheelRadius,//风车叶子的半径
+                    part = this.options.part,//PI/2分成几份
+                    ctx = canvas.getContext("2d"),//获取上下文
+                    num = this.options.num,//叶子数量
+                    center = {x: width / 2, y: height / 2},//绘图区域的中心
+                    point, //叶子圆心位置
+                    start = 0,//绘制叶子的开始角
+                    angle = 0,//start = angle
+                    end = Math.PI,//绘制叶子的结束角
+                    offset = Math.PI * (360 / num) / 180,//两个相邻叶子之间的角度
+                    rotateAngle = offset / part;//每次旋转的角度
 
-    function drawArcd(){  //绘制半圆
-        ctx.beginPath();
-        var trunkGradient = ctx.createLinearGradient(this.x, this.y, this.x, this.y+4*this.size);
-        trunkGradient.addColorStop(0, "#225500");
-        trunkGradient.addColorStop(1, '#FFF00F');
-        ctx.fillStyle = trunkGradient;
-        ctx.arc(this.x - (2*this.size*Math.cos(this.angle+3/2*Math.PI)), this.y -
-                2*this.size*Math.sin(this.angle+3/2*Math.PI),
-                2*this.size,this.angle+3/2*Math.PI,this.angle+5/2*Math.PI,true);
-        ctx.closePath();
-        ctx.fill();
-        ctx.save();
-    }
+            var leafrun =  function (){
+                    ctx.clearRect(0, 0, width, height);
+                    //循环绘制每个叶子：
+                    for (var i = 0; i < num; i += 1) {
+                        ctx.beginPath();//开始绘制叶子
+                        //创建径向渐变
+                        var wheelGradient = ctx.createRadialGradient(center.x, center.y, 100, center.x, center.y, 0);
+                        wheelGradient.addColorStop(0, color[i]);//起始颜色
+                        wheelGradient.addColorStop(1, "#000");//结束颜色
+                        ctx.fillStyle = wheelGradient;//填充渐变样式
+                        point = {x: center.x + Math.cos(offset * i + angle) * radius, y: center.y +
+                        Math.sin(offset * i + angle) * radius};//叶子圆心位置
+                        var x = start + offset * i;//绘制叶子的开始角
+                        var y = end + offset * i;//绘制叶子的结束角
+                        ctx.arc(point.x, point.y, wheelRadius, x, y, false);//绘制
+                        ctx.fill();//填充
+                        ctx.closePath();//结束绘制
+                    }
+                    //绘制中间的大圆点：
+                    ctx.beginPath();
+                    var dotGradient = ctx.createRadialGradient(center.x, center.y, 0, center.x, center.y, 40);
+                    dotGradient.addColorStop(0, "#fff");
+                    dotGradient.addColorStop(1, "#666");
+                    ctx.fillStyle = dotGradient;
+                    ctx.arc(center.x, center.y, 25, 0, 2 * Math.PI, false);
+                    ctx.fill();
+                    ctx.closePath();
 
-    function drawHandle(){  //绘制手把柄
-        var trunkGradient = ctx.createLinearGradient(this.x, this.y, this.x+10, this.y);
-        trunkGradient.addColorStop(0, '#663300');
-        trunkGradient.addColorStop(0.4, '#996600');
-        trunkGradient.addColorStop(1, '#552200');
-        ctx.fillStyle = trunkGradient;
-        ctx.fillRect(this.x, this.y, 0.2*this.size, 8*this.size);
-        function drawall(){
+
+                    angle += rotateAngle;
+                    start = angle;
+                    end = Math.PI + angle;
+                }
+            leafrun();
+            //window.timer = setInterval(leafrun, 20);
+        },
+        go:function () {
+            if(window.timer) clearInterval(window.timer);
+            //alert(this.show.radius);
+            //window.timer = setInterval('this.show.leafrun', 20);
+        },
+        hide: function () {
+            clearInterval(window.timer);
         }
-        ctx.clearRect(0,0,1274,670);
-        for(var i=0;i< windmills.length;i++){
-            windmills[i].angle = windmills[i].angle + (windmills[i].speed*1/32)*Math.PI;
-            if(windmills[i].angle==2*Math.PI) windmills[i].angle=0;
-            windmills[i].drawH();
-            windmills[i].drawAa();
-            windmills[i].drawAb();
-            windmills[i].drawAc();
-            windmills[i].drawAd();
-        }
+    };
+
+    //动态的风车基本上就做完了，这是运行大风车代码：
+    var options = {
+        num: 4,
+        color: ["red", "yellow", "blue", "green"],
+        radius: 50,
+        wheelRadius: 50,
+        part: 50
+    };
+
+    //修改options对象的属性就会改变风车的状态。　　
+
+    //需要停止风车运转调用这个函数：
+
+    var a = new Pinwheel("canvas", options);
+    a.show();
+
+    function move(){
+        a.go();
+    }
+    function hideWind(){
+        a.hide();
     }
 </script>
-</head>
-<body onLoad="init();">
-<div class="box1">
-    <img src="imgs\f.jpg" width="1274px" height="670px">
-</div>
-<div class="box1">
-    <canvas id = "windmill" width = "1274px" height = "670px"></canvas>
-</div>
-<audio autoplay="autoplay" loop="loop">
-    <source src="music\Windmill.mp3" type="audio/mpeg">
-</audio>
 </body>
 </html>

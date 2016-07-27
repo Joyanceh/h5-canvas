@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>两种旋转方式</title>
+</head>
+<body>
+<canvas id="myCanvas" width="480" height="300" style="border: 1px solid #c3c3c3;">
+    设备不支持canvas动画
+</canvas>
+
+</body>
+</html>
+    <script type="text/javascript">
+        var c = document.getElementById("myCanvas");
+        var cxt = c.getContext("2d");
+        cxt.fillStyle = "#0f0";
+        var fontSize = 90;
+        cxt.font = "bold 90px Arial";
+        cxt.fillText("立", 190, 90);
+        cxt.globalAlpha = 0.7;
+        cxt.font = "bold 70px Arial";
+        cxt.fillText("体", 260, 90);
+        cxt.globalAlpha = 0.6;
+        cxt.font = "bold 50px Arial";
+        cxt.fillText("感", 310, 90);
+        cxt.globalAlpha = 0.5;
+        cxt.font = "bold 30px Arial";
+        cxt.fillText("文", 350, 90);
+        cxt.globalAlpha = 0.4;
+        cxt.font = "bold 20px Arial";
+        cxt.fillText("字", 370, 90);
+        cxt.globalAlpha = 0.7;
+        cxt.font = "bold 70px Arial";
+        cxt.fillText("体", 145, 90);
+        cxt.globalAlpha = 0.6;
+        cxt.font = "bold 50px Arial";
+        cxt.fillText("感", 110, 90);
+        cxt.globalAlpha = 0.5;
+        cxt.font = "bold 30px Arial";
+        cxt.fillText("文", 90, 90);
+        cxt.globalAlpha = 0.4;
+        cxt.font = "bold 20px Arial";
+        cxt.fillText("字", 80, 90);
+    </script>

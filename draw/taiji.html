@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>HTML5 Canvas Demo太极图</title>
+<!--[if IE]>
+<script type="text/javascript" src="../../js/anvas.js"></script>
+<![endif]-->
+</head>
+<body>
+
+<canvas id="canvas-path" width="400" height="400" style="background-color:blue;border: 1px yellow solid"></>
+</canvas>
+</body>
+</html>
+<script>
+
+window.onload = function() {
+	var cvs = document.getElementById("canvas-path");
+	ctx = cvs.getContext("2d");
+	// Create circle, radius = 150
+	// start point(x, y), radius, start angle, end angle, boolean antiClockWise
+	ctx.fillStyle="#fff";
+	ctx.beginPath(); 
+	ctx.arc(200, 200, 150, 1.5*Math.PI, Math.PI/2, false);
+	ctx.closePath();
+	ctx.fill();
+	ctx.fillStyle="#000";
+	ctx.beginPath(); 
+	ctx.arc(200, 200, 150, Math.PI/2, 1.5*Math.PI, false);
+	ctx.closePath();
+	ctx.fill();
+	
+	// draw sub circle
+	// start point(x, y), radius, start angle, end angle, boolean antiClockWise
+	ctx.fillStyle="#000";
+	ctx.beginPath(); 
+	ctx.arc(200, 275, 75, 0, Math.PI*2, false); 
+	ctx.closePath();
+	ctx.fill();
+	ctx.fillStyle="#fff";
+	ctx.beginPath(); 
+	ctx.arc(200, 125, 75, 0, Math.PI*2, false);
+	ctx.closePath();
+	ctx.fill();
+	
+	// fill black and white point
+	ctx.fillStyle="#fff";
+	ctx.beginPath(); 
+	ctx.arc(200, 275, 10, 0, Math.PI*2, false);
+	ctx.closePath();
+	ctx.fill();
+	ctx.fillStyle="#000";
+	ctx.beginPath(); 
+	ctx.arc(200, 125, 10, 0, Math.PI*2, false);
+	ctx.closePath();
+	ctx.fill();
+	
+	// set transparency value  
+	ctx.globalAlpha = 0.2;  
+	  
+	// Draw semi transparent text
+	ctx.fillStyle = "#f00";
+	ctx.font = "32pt Arial";
+	ctx.fillText("Hello", 220, 200);
+	ctx.fillText("Canvas", 100, 250);
+	ctx.globalAlpha = 1.0; 
+	ctx.shadowOffsetX = 2;  
+	ctx.shadowOffsetY = 2;  
+	ctx.shadowBlur = 2;  
+	ctx.shadowColor = "rgba(0, 0, 0, 0.5)";  
+	ctx.fillStyle = "#000";
+	//ctx.font = "20px Times New Roman";
+	//ctx.fillText("-created by gloomyfish", 100, 30);
+  };
+</script>
